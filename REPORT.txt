@@ -1,0 +1,23 @@
+Challenges
+- time constraint prevented completion of exercise
+
+Points for improvement
+- completion of exercise,
+- input validation with user notification
+
+self evaluation
+- satisfied the requirements - 5/10
+- design - 5/10
+- key results - 5/10
+- i was not satisfied with my output
+- i spent an ample amount of time due to hardware constraints (procured new rig for remote work setup but was unable to use it, so i had to resort to using my old laptop)
+
+Screenshots
+(see screenshots folder)
+
+Missing Items
+- N/A since unfinished
+
+Improvements
+- N/A since unfinished
+

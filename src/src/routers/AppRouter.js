@@ -13,6 +13,7 @@ const AppRouter = () => (
         <div>
             <Switch>
                 <Route path="/" component={HomePage} exact={true} />
+                <Route path="/data-meister-trial-assignment/" component={HomePage} exact={true} />
                 <Route component={NotFoundPage}></Route>
             </Switch>
         </div>
