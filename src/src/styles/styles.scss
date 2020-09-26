@@ -1,0 +1,9 @@
+@import "./base/base";
+@import "./base/settings";
+
+// Components styling
+@import "../components/InputForm/input-form";
+
+// Routes styling
+@import "../routes/HomePage/home-page";
+@import "../routes/NotFoundPage/not-found-page";
