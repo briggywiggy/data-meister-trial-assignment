@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/data-meister-trial-assignment/static/css/main.6f0d5ffc.chunk.css",
-    "main.js": "/data-meister-trial-assignment/static/js/main.8b509e6c.chunk.js",
-    "main.js.map": "/data-meister-trial-assignment/static/js/main.8b509e6c.chunk.js.map",
+    "main.css": "/data-meister-trial-assignment/static/css/main.033c950a.chunk.css",
+    "main.js": "/data-meister-trial-assignment/static/js/main.abb2673d.chunk.js",
+    "main.js.map": "/data-meister-trial-assignment/static/js/main.abb2673d.chunk.js.map",
     "runtime-main.js": "/data-meister-trial-assignment/static/js/runtime-main.63bf293e.js",
     "runtime-main.js.map": "/data-meister-trial-assignment/static/js/runtime-main.63bf293e.js.map",
-    "static/js/2.46b60b9b.chunk.js": "/data-meister-trial-assignment/static/js/2.46b60b9b.chunk.js",
-    "static/js/2.46b60b9b.chunk.js.map": "/data-meister-trial-assignment/static/js/2.46b60b9b.chunk.js.map",
+    "static/js/2.d22333ab.chunk.js": "/data-meister-trial-assignment/static/js/2.d22333ab.chunk.js",
+    "static/js/2.d22333ab.chunk.js.map": "/data-meister-trial-assignment/static/js/2.d22333ab.chunk.js.map",
     "index.html": "/data-meister-trial-assignment/index.html",
-    "precache-manifest.4c40c357e18409abdae757cb0661441a.js": "/data-meister-trial-assignment/precache-manifest.4c40c357e18409abdae757cb0661441a.js",
+    "precache-manifest.c2e776332ad68c2a94aa87ec37b51173.js": "/data-meister-trial-assignment/precache-manifest.c2e776332ad68c2a94aa87ec37b51173.js",
     "service-worker.js": "/data-meister-trial-assignment/service-worker.js",
-    "static/css/main.6f0d5ffc.chunk.css.map": "/data-meister-trial-assignment/static/css/main.6f0d5ffc.chunk.css.map",
-    "static/js/2.46b60b9b.chunk.js.LICENSE.txt": "/data-meister-trial-assignment/static/js/2.46b60b9b.chunk.js.LICENSE.txt"
+    "static/css/main.033c950a.chunk.css.map": "/data-meister-trial-assignment/static/css/main.033c950a.chunk.css.map",
+    "static/js/2.d22333ab.chunk.js.LICENSE.txt": "/data-meister-trial-assignment/static/js/2.d22333ab.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.63bf293e.js",
-    "static/js/2.46b60b9b.chunk.js",
-    "static/css/main.6f0d5ffc.chunk.css",
-    "static/js/main.8b509e6c.chunk.js"
+    "static/js/2.d22333ab.chunk.js",
+    "static/css/main.033c950a.chunk.css",
+    "static/js/main.abb2673d.chunk.js"
   ]
 }
