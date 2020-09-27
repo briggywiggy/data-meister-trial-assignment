@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import validator from 'validator';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Button from '@material-ui/core/Button';
@@ -7,13 +8,11 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Grid from '@material-ui/core/Grid';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import TextField from '@material-ui/core/TextField';
-import Tooltip from '@material-ui/core/Tooltip';
-
-import InfoIcon from '@material-ui/icons/Info';
 
 import CountrySelector from '../../components/CountrySelector/country-selector.component';
 import CitySelector from '../../components/CitySelector/city-selector.component';
@@ -23,21 +22,42 @@ import FileUpload from '../../components/FileUpload/file-upload.component';
 import { setCSVData } from '../../actions/csv-data.action';
 import { setUserData } from '../../actions/user-data.action';
 
+import JSONData from '../../assets/json/data.json';
+
 const InputForm = ({ redirectToOutputTab }) => {
+    const userData = useSelector(state => state.userData);
     const csvData = useSelector(state => state.csvData);
     const dispatch = useDispatch();
 
-    const [name, setName] = React.useState();
-    const [gender, setGender] = React.useState();
+    const [name, setName] = React.useState("");
+    const [errorName, setErrorName] = React.useState(false);
+    const [helperTextName, setHelperTextName] = React.useState("");
+
+    const [gender, setGender] = React.useState("female");
     const [age, setAge] = React.useState(60);
-    const [email, setEmail] = React.useState();
-    const [country, setCountry] = React.useState('Austria');
-    const [city, setCity] = React.useState('AMSTERDAM');
+
+    const [email, setEmail] = React.useState("");
+    const [errorEmail, setErrorEmail] = React.useState(false);
+    const [helperTextEmail, setHelperTextEmail] = React.useState("");
+
+    const [country, setCountry] = React.useState(JSONData.countries.sort()[0]);
+    const [city, setCity] = React.useState(JSONData.cities[country].sort()[0]);
+
     const [csv, setCSV] = React.useState();
+    const [errorCSV, setErrorCSV] = React.useState(false);
+
     const [date, setDate] = React.useState(moment().format('YYYY-MM-DD'));
+
+    const requiredText = "This is a required field";
 
     const handleChangeName = (e) => {
         setName(e.target.value);
+    }
+    const handleBlurName = (e) => {
+        if (!e.target.value) {
+            setErrorName(true);
+            setHelperTextName(requiredText);
+        }
     }
 
     const handleChangeGender = (e) => {
@@ -52,13 +72,30 @@ const InputForm = ({ redirectToOutputTab }) => {
         setEmail(e.target.value);
     }
 
+    const handleBlurEmail = (e) => {
+        if (!e.target.value) {
+            setErrorEmail(true);
+            setHelperTextEmail(requiredText);
+        }
+    }
+
     const onFileLoaded = (data, fileInfo) => {
         dispatch(setCSVData(data));
     };
 
     const handleClickUpload = (e) => {
-        console.log(csvData);
-        setCSV(csvData.toString());
+        let result;
+        if (csv) {
+            result = window.confirm("Are you sure you want to overwrite contents?")
+        }
+        if (!csv || result) {
+            let string = "";
+            csvData.forEach((data, index) => {
+                let additional = (index !== csvData.length - 1) ? ",\n" : "";
+                string += data.toString() + additional;
+            })
+            setCSV(string);
+        }
     }
 
     const handleChangeCountry = (e) => {
@@ -70,12 +107,27 @@ const InputForm = ({ redirectToOutputTab }) => {
     const handleChangeCSV = (e) => {
         setCSV(e.target.value);
     }
+    const handleBlurCSV = (e) => {
+        if (!e.target.value) {
+            setErrorCSV(true);
+        }
+    }
     const handleChangeDate = (e) => {
         setDate(e.target.value);
     }
 
     const isAllowedToContinue = () => {
-        if(name && gender && age && email && country && city && csv && date) {
+        if (
+            name &&
+            !errorName &&
+            gender &&
+            age &&
+            email &&
+            !errorEmail &&
+            country &&
+            city &&
+            csv &&
+            date) {
             return true;
         } else {
             return false;
@@ -97,6 +149,54 @@ const InputForm = ({ redirectToOutputTab }) => {
         redirectToOutputTab();
     }
 
+    React.useEffect(() => {
+        if (Object.keys(userData).length > 0) {
+            setName(userData.name);
+            setGender(userData.gender);
+            setAge(userData.age);
+            setEmail(userData.email);
+            setCountry(userData.country);
+            setCity(userData.city);
+            setCSV(userData.csv);
+            setDate(userData.date);
+        }
+        console.log('userData', userData);
+    }, [])
+
+    React.useEffect(() => {
+        if (name) {
+            if (name.match(/^[A-Za-z0-9_']+\s?,\s?[A-Za-z0-9_']+$/g)) {
+                setErrorName(false);
+                setHelperTextName("");
+            } else {
+                setErrorName(true);
+                setHelperTextName("Name format should be [<Last_Name>, <First_Name>]")
+            }
+        }
+    }, [name])
+
+    React.useEffect(() => {
+        if (email) {
+            if (validator.isEmail(email)) {
+                setErrorEmail(false);
+                setHelperTextEmail("");
+            } else {
+                setErrorEmail(true);
+                setHelperTextEmail("This is not a valid email");
+            }
+        }
+    }, [email])
+
+    React.useEffect(() => {
+        setCity(JSONData.cities[country].sort()[0]);
+    }, [country])
+
+    React.useEffect(() => {
+        if (csv) {
+            setErrorCSV(false);
+        }
+    }, [csv])
+
     return (
         <form noValidate autoComplete="off">
             <Grid container spacing={3}>
@@ -104,29 +204,47 @@ const InputForm = ({ redirectToOutputTab }) => {
                     <FormLabel>User:</FormLabel>
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField label="Name" variant="outlined" fullWidth onChange={handleChangeName} />
+                    <TextField
+                        label="Name"
+                        variant="outlined"
+                        value={name}
+                        fullWidth
+                        error={errorName}
+                        helperText={helperTextName}
+                        onChange={handleChangeName}
+                        onBlur={handleBlurName}
+                    />
                 </Grid>
                 <Grid item xs={2}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend">Gender</FormLabel>
-                        <RadioGroup aria-label="gender" name="gender1" onChange={handleChangeGender}>
+                        <RadioGroup aria-label="gender" name="gender1" value={gender} onChange={handleChangeGender}>
                             <FormControlLabel value="female" control={<Radio />} label="Female" />
                             <FormControlLabel value="male" control={<Radio />} label="Male" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
                 <Grid item xs={4}>
-                    <AgeSlider handleChangeAge={handleChangeAge} />
+                    <AgeSlider age={age} handleChangeAge={handleChangeAge} />
                 </Grid>
 
                 <Grid item xs={6}>
-                    <TextField label="Email" variant="outlined" fullWidth onChange={handleChangeEmail} />
+                    <TextField
+                        label="Email"
+                        variant="outlined"
+                        value={email}
+                        fullWidth
+                        error={errorEmail}
+                        helperText={helperTextEmail}
+                        onBlur={handleBlurEmail}
+                        onChange={handleChangeEmail}
+                    />
                 </Grid>
                 <Grid item xs={2}>
-                    <CountrySelector country={country} handleChangeCountry={handleChangeCountry} />
+                    <CountrySelector countries={JSONData.countries.sort()} country={country} handleChangeCountry={handleChangeCountry} />
                 </Grid>
                 <Grid item xs={4}>
-                    <CitySelector city={city} handleChangeCity={handleChangeCity} />
+                    <CitySelector cities={JSONData.cities[country].sort()} city={city} handleChangeCity={handleChangeCity} />
                 </Grid>
 
 
@@ -144,7 +262,7 @@ const InputForm = ({ redirectToOutputTab }) => {
                         id="date"
                         label="Date"
                         type="date"
-                        defaultValue={date}
+                        value={date}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -160,7 +278,9 @@ const InputForm = ({ redirectToOutputTab }) => {
                         placeholder="Input CSV data"
                         value={csv}
                         onChange={handleChangeCSV}
+                        onBlur={handleBlurCSV}
                     />
+                    {errorCSV && <FormHelperText children={requiredText} error />}
                 </Grid>
                 <Grid item xs={8}></Grid>
                 <Grid item xs={4}>

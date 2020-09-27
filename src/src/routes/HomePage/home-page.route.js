@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
@@ -36,6 +37,7 @@ function a11yProps(index) {
 }
 
 const HomePage = () => {
+    const userData = useSelector(state => state.userData);
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -51,7 +53,7 @@ const HomePage = () => {
             <AppBar position="static">
                 <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                     <Tab label="Input" {...a11yProps(0)} />
-                    <Tab label="Output" {...a11yProps(1)} />
+                    <Tab label="Output" {...a11yProps(1)} disabled={Object.keys(userData).length === 0} />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>

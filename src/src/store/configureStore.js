@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 // reducers
 import userDataReducer from '../reducers/user-data.reducer';
 import csvDataReducer from '../reducers/csv-data.reducer';
+import paginatedDataReducer from '../reducers/paginated-data.reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware = createSagaMiddleware();
@@ -15,6 +16,7 @@ export default () => {
         combineReducers({
             csvData: csvDataReducer,
             userData: userDataReducer,
+            paginatedData: paginatedDataReducer,
         }),
         composeEnhancers(applyMiddleware(...middlewares))
     );

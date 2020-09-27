@@ -44,6 +44,9 @@ const marks = [
         value: 60,
     },
     {
+        value: 90,
+    },
+    {
         value: 120,
     },
 ];
@@ -98,13 +101,19 @@ const IOSSlider = withStyles({
     },
 })(Slider);
 
-export default function CustomizedSlider({ handleChangeAge }) {
+export default function CustomizedSlider({ age, handleChangeAge }) {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
             <Typography gutterBottom>Age</Typography>
-            <IOSSlider aria-label="ios slider" defaultValue={60} marks={marks} valueLabelDisplay="on" onChange={handleChangeAge} />
+            <IOSSlider aria-label="ios slider"
+            value={age}
+            defaultValue={60}
+            marks={marks}
+            valueLabelDisplay="on"
+            max={120}
+            onChange={handleChangeAge} />
         </div>
     );
 }

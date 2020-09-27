@@ -79,20 +79,3 @@
     width: 100vw;
   }
   
-  .google-signin-button {
-    background-image: url("/images/google_signin_buttons/web/1x/btn_google_signin_light_normal_web.png");
-    background-size: cover;
-    cursor: pointer;
-    width: 191px;
-    height: 46px;
-    margin: auto;
-  
-    &:hover {
-      background-image: url("/images/google_signin_buttons/web/1x/btn_google_signin_light_focus_web.png");
-    }
-  
-    &:active {
-      background-image: url("/images/google_signin_buttons/web/1x/btn_google_signin_light_pressed_web.png");
-    }
-  }
-  
